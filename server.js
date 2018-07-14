@@ -5,10 +5,12 @@ var bodyParser = require("body-parser");
 var path = require("path");
 
 var app = express();
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 3001;
 
+app.use(express.static(path.join(__dirname, 'app/public/javascript')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 
 // Listener
 // ===========================================================
@@ -16,6 +18,5 @@ app.listen(PORT, function () {
     console.log("App listening on PORT " + PORT);
 });
 
-var friends = require('./app/data/friend');
-require('./app/routing/htmlRoutes')(app, path);
-require('./app/routing/apiRoutes')(app, friends);
+require('./app/routing/html_routes')(app);
+require('./app/routing/api_routes')(app);

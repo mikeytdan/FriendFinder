@@ -1,4 +1,6 @@
-module.exports = function(app, path) {
+var path = require("path");
+
+module.exports = function(app) {
     var publicPath = __dirname + "/../public/";
 
     app.get("/", function (req, res) {

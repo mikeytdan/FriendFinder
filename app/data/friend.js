@@ -58,9 +58,11 @@ module.exports = {
         try {
             var friend = new Friend(name, photo, scores);
             friends.push(friend);
+            return friend;
         } catch (error) {
             console.log(error);
         }
+        return null;
     },
 
     friends: function () {
