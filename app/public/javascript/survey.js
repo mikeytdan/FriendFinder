@@ -12,16 +12,19 @@ var questions = [
 ]
 
 window.onload = function (event) {
+    $('#match-modal').modal({ show: false})
+    $('#error-modal').modal({ show: false})
+    
     var surveyDiv = $("#survey");
     surveyDiv.append("<h2>About You</h2>")
 
     var nameGroup = $("<form-group>").appendTo(surveyDiv);
     nameGroup.append(`<label>Name:</label>`);
-    nameGroup.append(`<input type="text" value="Mike" class="form-control mb-3" id="name" placeholder="Name">`);
+    nameGroup.append(`<input type="text" class="form-control mb-3" id="name" placeholder="Name">`); // TODO: remove value="Mike"
 
     var photoGroup = $("<form-group>").appendTo(surveyDiv);
     photoGroup.append(`<label>Photo URL:</label>`);
-    photoGroup.append(`<input type="text" value="Photo" class="form-control" id="photo" placeholder="Photo url">`);
+    photoGroup.append(`<input type="text" class="form-control" id="photo" placeholder="Photo url">`); // TODO: remove value="Photo"
     surveyDiv.append("<hr>");
 
     for (index = 0; index < questions.length; index++) {
@@ -33,22 +36,22 @@ window.onload = function (event) {
         event.preventDefault();
         var name = $("#name").val().trim();
         if (name == "") {
-            console.log(`Missing name`);
-            return; // TODO: show error
+            showError("Missing name");
+            return;
         }
 
         var photo = $("#photo").val().trim();
         if (photo == "") {
-            console.log(`Missing photo link`);
-            return; // TODO: show error
+            showError("Missing photo link");
+            return;
         }
 
         var values = [];
         for (index = 1; index <= questions.length; index++) {
             var value = $(`input[name=question${index}]:checked`).val();
             if (value == undefined) {
-                console.log(`Missing response for question ${index}`);
-                return // TODO: show error
+                showError(`Missing response for question ${index}`);
+                return
             }
             values.push(parseInt(value));
         }
@@ -70,26 +73,31 @@ window.onload = function (event) {
     })
 }
 
+function showError(error) {
+    $("#modal-error").text(error);
+    $('#error-modal').modal('show');
+}
+
 function compare(friend, friends) {
     var bestScore = 9999;
     var myScore = friend.scores.reduce((a, b) => a + b, 0);
-    var closestMatch
+    var closestFriendMatch
     for (f of friends) {
-        console.log(f);
         var friendScore = f.scores.reduce((a, b) => parseInt(a) + parseInt(b), 0);
         var diff = Math.abs(myScore - friendScore);
         if (diff < bestScore) {
-            closestMatch = f;
+            closestFriendMatch = f;
             bestScore = diff;
         }
     }
 
+    showBestMatchWithFriend(closestFriendMatch)
+}
 
-    console.log("Best score: " + bestScore);
-    console.log("Friend");
-    console.log(friend);
-    console.log("Closest match");
-    console.log(closestMatch);
+function showBestMatchWithFriend(friend) {
+    $("#modal-name").text(friend.name);
+    $("#modal-image").attr('src',friend.photo); 
+    $('#match-modal').modal('show');
 }
 
 function addVoteQuestionToDiv(question, index) {
@@ -99,7 +107,7 @@ function addVoteQuestionToDiv(question, index) {
     var control = $("<div>");
     control.addClass("form-check");
     for (value of [1, 2, 3, 4, 5]) {
-        control.append($(`<input type="radio" name="question${index}" value=${value} class="form-check-input" checked="checked">`));
+        control.append($(`<input type="radio" name="question${index}" value=${value} class="form-check-input" checked="checked">`)); // TODO: Removed checked="checked"
         var text = `${value}`;
         if (value == 1) {
             text += " Strongly Disagree";

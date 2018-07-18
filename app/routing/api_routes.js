@@ -12,7 +12,6 @@ module.exports = function(app) {
         var name = req.body.name;
         var photo = req.body.photo;
         var scores = req.body.scores;
-        // TODO: Handle invalid data
         var friend = friends.addFriend(name, photo, scores);
         console.log(friend);
         res.json(friend)
