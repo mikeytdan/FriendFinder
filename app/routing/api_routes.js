@@ -8,12 +8,10 @@ module.exports = function(app) {
     });
     
     app.post("/api/friends", function (req, res) {
-        console.log(req.body);
         var name = req.body.name;
         var photo = req.body.photo;
         var scores = req.body.scores;
         var friend = friends.addFriend(name, photo, scores);
-        console.log(friend);
         res.json(friend)
     });
 };

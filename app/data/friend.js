@@ -3,7 +3,7 @@ var Friend = function (name, photo, scores) {
     if (typeof photo !== 'string') { throw "photo must be an array" }
     if (!Array.isArray(scores)) { throw "scores must be an array" }
 
-    this.name = name.toUpperCase();
+    this.name = name;
     this.photo = photo;
     this.scores = scores;
 }

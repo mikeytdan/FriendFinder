@@ -20,11 +20,11 @@ window.onload = function (event) {
 
     var nameGroup = $("<form-group>").appendTo(surveyDiv);
     nameGroup.append(`<label>Name:</label>`);
-    nameGroup.append(`<input type="text" class="form-control mb-3" id="name" placeholder="Name">`); // TODO: remove value="Mike"
+    nameGroup.append(`<input type="text" class="form-control mb-3" id="name" placeholder="Name">`);
 
     var photoGroup = $("<form-group>").appendTo(surveyDiv);
     photoGroup.append(`<label>Photo URL:</label>`);
-    photoGroup.append(`<input type="text" class="form-control" id="photo" placeholder="Photo url">`); // TODO: remove value="Photo"
+    photoGroup.append(`<input type="text" class="form-control" id="photo" placeholder="Photo url">`);
     surveyDiv.append("<hr>");
 
     for (index = 0; index < questions.length; index++) {
@@ -92,6 +92,14 @@ function compare(friend, friends) {
     }
 
     showBestMatchWithFriend(closestFriendMatch)
+    clearInputs()
+    
+}
+
+function clearInputs() {
+    $("#name").val("");
+    $("#photo").val("");
+    $('input:checked').prop('checked', false);
 }
 
 function showBestMatchWithFriend(friend) {
@@ -107,7 +115,7 @@ function addVoteQuestionToDiv(question, index) {
     var control = $("<div>");
     control.addClass("form-check");
     for (value of [1, 2, 3, 4, 5]) {
-        control.append($(`<input type="radio" name="question${index}" value=${value} class="form-check-input" checked="checked">`)); // TODO: Removed checked="checked"
+        control.append($(`<input type="radio" name="question${index}" value=${value} class="form-check-input">`));
         var text = `${value}`;
         if (value == 1) {
             text += " Strongly Disagree";
